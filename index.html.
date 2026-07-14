@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Crocodile Method Blueprint</title>
+
+  <style>
+    /* Lock down the page background initially */
+    body { 
+      display: none !important; 
+      background-color: #080a09 !important; 
+    }
+    
+    /* Animated Dark Mesh Gradient Background Wrapper Layout */
+    #lock-screen-wrapper { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      background: radial-gradient(circle at 20% 30%, #0d1a14 0%, #060807 70%),
+                  radial-gradient(circle at 80% 80%, #071710 0%, #060807 70%);
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      z-index: 9999999; 
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
+      color: #ffffff; 
+      padding: 24px; 
+      box-sizing: border-box; 
+      overflow-y: auto;
+    }
+    
+    /* High-End Glassmorphic Card Panel UI */
+    .lock-card { 
+      width: 100%; 
+      max-width: 380px; 
+      text-align: center; 
+      background: rgba(22, 28, 25, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.12);
+      border-radius: 24px;
+      padding: 40px 32px;
+      box-sizing: border-box;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
+                  inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Admin Panel Adaptive Container Workspace */
+    .admin-panel-layout {
+      width: 100%;
+      max-width: 800px;
+      background: rgba(15, 20, 18, 0.85);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 28px;
+      padding: 32px;
+      box-sizing: border-box;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    /* Metric Card Layout Framework Grid */
+    .metrics-grid-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .metric-card-box {
+      background: rgba(11, 14, 12, 0.6);
+      border: 1px solid #1c2420;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: left;
+    }
+    .metric-card-box label { font-size: 12px; color: #606d68; text-transform: uppercase; letter-spacing: 1px; }
+    .metric-card-box div { font-size: 28px; font-weight: 700; color: #ffffff; margin-top: 4px; }
+    .metric-card-box.active-tint div { color: #10b981; }
+    
+    /* Typography Text Header Settings Layout */
+    .lock-card h2 { 
+      font-size: 26px; 
+      font-weight: 700; 
+      margin: 0 0 10px 0; 
+      letter-spacing: -0.5px;
+      background: linear-gradient(180deg, #ffffff 0%, #a7b5b0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lock-card p { font-size: 14px; color: #818c88; margin: 0 0 28px 0; line-height: 1.5; }
+    
+    /* Inputs & Buttons styling matrices */
+    .lock-input { 
+      width: 100%; 
+      padding: 16px; 
+      background: rgba(11, 14, 12, 0.8); 
+      border: 1px solid #222925; 
+      border-radius: 12px; 
+      color: #ffffff; 
+      font-size: 15px; 
+      font-weight: 500;
+      margin-bottom: 16px; 
+      box-sizing: border-box; 
+      text-align: center; 
+      letter-spacing: 2px;
+      outline: none; 
+      transition: all 0.3s ease;
+    }
+    .lock-input:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
+    
+    .lock-btn { 
+      width: 100%; padding: 16px; background: #10b981; border: none; border-radius: 12px; 
+      color: #020403; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+    }
+    .lock-btn:hover { background: #34d399; transform: translateY(-1px); }
+    .lock-btn:disabled { background: #13271f !important; color: #064e3b !important; cursor: not-allowed; }
+    
+    /* Admin Interactive Controller Components */
+    .admin-header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1c2420; padding-bottom: 16px; }
+    .admin-header-row h1 { font-size: 22px; font-weight: 700; margin: 0; color: #ffffff; }
+    .btn-sm-action { background: #10b981; color: #020403; padding: 10px 16px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
+    
+    /* Key Data Monitoring Rows Table */
+    .table-scroll-panel { max-height: 300px; overflow-y: auto; background: #0b0e0c; border: 1px solid #1c2420; border-radius: 14px; }
+    .data-grid-list { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    .data-grid-list th { background: #111613; padding: 14px; color: #606d68; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+    .data-grid-list td { padding: 14px; border-bottom: 1px solid #161d19; color: #d0d7d4; font-family: monospace; }
+    
+    /* Badges status labels styling */
+    .badge-ui { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-block; }
+    .badge-ui.status-active { background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .badge-ui.status-burned { background: rgba(248, 113, 113, 0.12); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.2); }
+    
+    .btn-table-reset { background: transparent; border: 1px solid #303b35; color: #a7b5b0; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: all 0.2s; }
+    .btn-table-reset:hover { background: #1c2420; color: #ffffff; border-color: #10b981; }
+
+    .error-msg { color: #f87171; font-size: 13px; margin-top: 14px; display: none; font-weight: 500; animation: shake 0.4s ease-in-out; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  </style>
+
+  <script type="text/javascript">
+  const API_URL = "https://supabase.co";
+  const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpsc3B4bXRyZWR5Z3pmZnpmcGZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NTkzMzgsImV4cCI6MjA5OTUzNTMzOH0.pLl3oElxCbwoyTIGBpie-_z05wLWxV4lMet27genAGw";
+  const RPC_URL = "https://supabase.co";
+  const COOKIE_NAME = "c_method_session_auth";
+
+  // Device memory access checking metrics 
+  function getAuthCookie() {
+    let matches = document.cookie.match(new RegExp("(?:^|; )" + COOKIE_NAME.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+    return matches ? decodeURIComponent(matches) : null;
+  }
+
+  function setAuthCookie() {
+    let d = new Date();
+    d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = COOKIE_NAME + "=verified_session_active; " + expires + "; path=/; SameSite=Strict; Secure";
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Device cookie gate pass validation validation 
+    if (getAuthCookie() === "verified_session_active") {
+      document.body.style.setProperty('display', 'block', 'important');
+      return;
+    }
+
+    // Create UI overlay background canvas elements 
+    var ui = document.createElement('div');
+    ui.id = 'lock-screen-wrapper';
+    ui.innerHTML = `
+      <!-- Standard Lock Screen UI Component Panel -->
+      <div class="lock-card" id="card-panel-view">
+        <div class="lock-icon-container"><div class="lock-icon">🐊</div></div>
+        <h2>The Crocodile Method</h2>
+        <p>Enter your unique cryptographic access key to decrypt and initialize the blueprint framework.</p>
+        <input type="password" id="key-input" class="lock-input" placeholder="Enter Authentication Key..." autocomplete="off">
+        <button id="unlock-btn" class="lock-btn">Access Encryption Vault</button>
+        <div id="error-text" class="error-msg">Invalid, corrupted, or expired access token.</div>
+      </div>
+
+      <!-- Private Admin Key Tracking Command Center Dashboard Panel -->
+      <div class="admin-panel-layout" id="admin-panel-view">
+        <div class="admin-header-row">
+          <h1>Live Token Management Dashboard</h1>
+          <button id="btn-generate-key" class="btn-sm-action">+ Generate Fresh Token</button>
+        </div>
+        
+        <div class="metrics-grid-row">
+          <div class="metric-card-box"><label>Total Records</label><div id="m-total">0</div></div>
+          <div class="metric-card-box active-tint"><label>Active Vault Keys</label><div id="m-active">0</div></div>
+          <div class="metric-card-box"><label>Burned Keys</label><div id="m-burned">0</div></div>
+        </div>
+
+        <div class="table-scroll-panel">
+          <table class="data-grid-list">
+            <thead><tr><th>Access Key Profile Code</th><th>Current Status</th><th>System Actions</th></tr></thead>
+            <tbody id="admin-table-body"><tr><td colspan="3" style="text-align:center;color:#606d68;">Querying active cloud schema parameters...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    document.documentElement.appendChild(ui);
+
+    var cardPanel = document.getElementById('card-panel-view');
+    var adminPanel = document.getElementById('admin-panel-view');
+    var btn = document.getElementById('unlock-btn');
+    var input = document.getElementById('key-input');
+    var error = document.getElementById('error-text');
+
+    async function verifyKey() {
+      btn.innerText = "Verifying Signatures...";
+      btn.disabled = true;
+      error.style.display = 'none';
+
+      let userKey = input.value.trim();
+
+      // 🔐 ADMIN DASHBOARD OVERRIDE CODE
+      if (userKey === "ADMIN123") {
+        cardPanel.style.display = "none";
+        adminPanel.style.display = "flex";
+        loadAdminDashboardMetrics();
+        return;
+    
