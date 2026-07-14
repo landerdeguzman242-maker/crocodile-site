@@ -140,7 +140,6 @@
     .btn-table-reset:hover { background: #1c2420; color: #ffffff; border-color: #10b981; }
 
     .error-msg { color: #f87171; font-size: 13px; margin-top: 14px; display: none; font-weight: 500; animation: shake 0.4s ease-in-out; }
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
   </style>
 
   <script type="text/javascript">
@@ -225,4 +224,8 @@
         adminPanel.style.display = "flex";
         loadAdminDashboardMetrics();
         return;
-    
+      }
+
+      if (!userKey) {
+        error.style.display = 'block';
+        btn.innerText = "Access Encryption Vault";
